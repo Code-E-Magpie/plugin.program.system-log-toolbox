@@ -128,7 +128,9 @@ def TextBox(title, msg):
 			self.showDialog()
 
 		def showDialog(self):
+			close = '[COLOR %s]Close[/COLOR]' % TEXT_GENERAL
 			self.getControl(self.title).setLabel(title)
+			self.getControl(self.okbutton).setLabel(close)
 			self.getControl(self.msg).setText(msg)
 			self.setFocusId(self.scrollbar)
 
@@ -160,13 +162,13 @@ Development_Information_Text = '[CR][CR][CR][COLOR %s][B]C o d e - E - M a g p i
 # FUNCTION: User_Information
 # ============================================================
 
-INSTRUCTIONS_TEXT = 'I N S T R U C T I O N S[CR][CR]Open the add-on to access the menu.[CR]Select one of the \'>\' menu items.[CR][CR]\'System Log Toolbox Settings >\' user settings:[CR]• set notification duration[CR]• logs highlight if count exceeds number set (used to identify the exsistance of an extra log e.g. a crash log)[CR]• view log limit to prevent crashing (dependent on device / platform - file size: 1000 lines ~ 170kb)[CR]• customise text colours with billions of text colour combinations[CR][CR]Choose from 140 colours for each one (there is also a none option):[CR]TEXT_ADDON = header (notifications, logs and text boxes)[CR]TEXT_DARK = logs and text boxes[CR]TEXT_DIM = menu text[CR]TEXT_GENERAL = main text (notifications, logs and text boxes)[CR]TEXT_HIGHLIGHT = values on menu requiring attention and logs[CR]TEXT_ITEM = items on menu and text boxes[CR]TEXT_VALUE = values on menu and text boxes[CR][CR]\'Exit Only >\' exits the add-on'
+INSTRUCTIONS_TEXT = 'I N S T R U C T I O N S[CR][CR]Open the add-on to access the menu.[CR]Select one of the \'>\' menu items.[CR][CR]\'System Log Toolbox Settings >\' user settings:[CR]• set notification duration[CR]• logs highlight if count exceeds number set (used to identify the exsistance of an extra log e.g. a crash log)[CR]• view log limit to prevent crashing (dependent on device / platform - file size: 1000 lines ~ 170kb)[CR]• customise text colours with billions of text colour combinations[CR][CR]Choose from 140 colours for each one (there is also a none option):[CR]TEXT_ADDON = header (menu, notifications, logs and text boxes)[CR]TEXT_DARK = logs and text boxes[CR]TEXT_DIM = menu[CR]TEXT_GENERAL = main text (notifications, logs, text boxes and close button)[CR]TEXT_HIGHLIGHT = values on menu requiring attention and logs[CR]TEXT_ITEM = items on menu and text boxes[CR]TEXT_VALUE = values on menu and text boxes[CR][CR]\'Exit Only >\' exits the add-on'
 
 NOTES_TEXT = '[CR][CR][CR]N O T E S[CR][CR]The number of lines in New System Log and New System Log Errors will increase as processes are run and by background activies.[CR]The number of lines shown on the menu will not change unless the menu is reloaded (even after viewing a log).[CR]The number of lines shown at the top of the log may therefore be higher than the menu.[CR][CR]Press the OK button in settings to save any changes made and after resetting a category to default.[CR]Some changes may require restarting the add-on.'
 
 DEVELOPMENT_TEXT = '[CR][CR][CR]D E V E L O P M E N T[CR][CR]Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).[CR]Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).[CR]Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (user testing).[CR]100% tested and working on Android.[CR]Not tested on other platforms.[CR]Code debugged and reengineered where required using https://aipy.dev/tools'
 
-CHANGELOG_TEXT = '[CR][CR][CR]C H A N G E L O G [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by C[COLOR dimgray]o[/COLOR]d[COLOR dimgray]e[/COLOR]-[COLOR dimgray]E[/COLOR]-[COLOR dimgray]M[/COLOR]a[COLOR dimgray]g[/COLOR]p[COLOR dimgray]i[/COLOR]e (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by C[COLOR dimgray]o[/COLOR]d[COLOR dimgray]e[/COLOR]-[COLOR dimgray]E[/COLOR]-[COLOR dimgray]M[/COLOR]a[COLOR dimgray]g[/COLOR]p[COLOR dimgray]i[/COLOR]e (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)'
+CHANGELOG_TEXT = '[CR][CR][CR]C H A N G E L O G [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by C[COLOR dimgray]o[/COLOR]d[COLOR dimgray]e[/COLOR]-[COLOR dimgray]E[/COLOR]-[COLOR dimgray]M[/COLOR]a[COLOR dimgray]g[/COLOR]p[COLOR dimgray]i[/COLOR]e (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by C[COLOR dimgray]o[/COLOR]d[COLOR dimgray]e[/COLOR]-[COLOR dimgray]E[/COLOR]-[COLOR dimgray]M[/COLOR]a[COLOR dimgray]g[/COLOR]p[COLOR dimgray]i[/COLOR]e (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)'
 
 User_Information_Text = '[COLOR %s][B]U S E R   I N F O R M A T I O N[/B][CR][COLOR %s][LIGHT](Instructions / Notes / Development / Changelog)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, TEXT_VALUE, TEXT_GENERAL, (INSTRUCTIONS_TEXT + NOTES_TEXT + DEVELOPMENT_TEXT + CHANGELOG_TEXT))
 
@@ -261,6 +263,10 @@ def Count_Log_Lines(file_path):
 
 def System_Log(log_file):
 
+	if Count_Log_Lines(log_file) == 0:
+		Notification(Addon_Title, '[COLOR %s]System Log: 0 lines in log[/COLOR]' % TEXT_GENERAL)
+		return False
+
 	if Count_Log_Lines(log_file) > VIEW_LOG_LIMIT:
 		Notification(Addon_Title, '[COLOR %s]System Log: unable to view more than %s lines[/COLOR]' % (TEXT_GENERAL, VIEW_LOG_LIMIT))
 		return False
@@ -284,9 +290,6 @@ def System_Log(log_file):
 	except (OSError, UnicodeDecodeError) as e:
 		Log(Log_Title + System + 'System Log: file error[CR]%s' % e, xbmc.LOGINFO)
 
-	else:
-		Notification(Addon_Title, '[COLOR %s]System Log: 0 lines in log[/COLOR]' % TEXT_GENERAL)
-
 	for log_file, content in system_log:
 		TextBox('[B]%s[/B][COLOR %s][CR]System Log: [COLOR %s]%s[LIGHT] lines[/COLOR] (oldest at the top)[/LIGHT][/COLOR]' % (Addon_Title, TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(log_file)), content)
 
@@ -295,6 +298,10 @@ def System_Log(log_file):
 # ============================================================
 
 def System_Log_Errors(log_file):
+
+	if Count_Log_Lines(log_file) == 0:
+		Notification(Addon_Title, '[COLOR %s]System Log Errors: 0 lines in log[/COLOR]' % TEXT_GENERAL)
+		return False
 
 	system_log_errors = []
 
@@ -398,7 +405,7 @@ else:
 	Addon_Version = xbmcgui.ListItem('[COLOR %s]Version: %s[/COLOR]' % (TEXT_DIM, ADDON_VERSION))
 	Addon_Version.setArt({'fanart': ADDON_FANART, 'thumb': ADDON_ICON})
 
-	Addon_ID = xbmcgui.ListItem('[COLOR %s]Addon ID: %s[/COLOR]' % (TEXT_DIM, ADDON_ID))
+	Addon_ID = xbmcgui.ListItem('[COLOR %s]Add-on ID: %s[/COLOR]' % (TEXT_DIM, ADDON_ID))
 	Addon_ID.setArt({'fanart': ADDON_FANART, 'thumb': ADDON_ICON})
 
 	# Append to PLUGIN_URL as it already ends with a slash.
