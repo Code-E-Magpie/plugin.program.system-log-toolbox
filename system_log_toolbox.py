@@ -357,7 +357,6 @@ elif '/Old_System_Log' in PLUGIN_URL:
 
 elif '/Exit_Only' in PLUGIN_URL:
 	xbmc.executebuiltin('Action(Back)')
-	Log(Log_Title + '[COLOR %s]menu > [/COLOR][COLOR %s][LIGHT]Finished (Exit Only)[/LIGHT][/COLOR]' % (TEXT_GENERAL, TEXT_DARK), xbmc.LOGINFO)
 
 elif '/User_Information' in PLUGIN_URL:
 	User_Information()
