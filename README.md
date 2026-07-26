@@ -19,7 +19,7 @@ The number of lines shown at the top of the log may therefore be higher than the
 Press the OK button in settings to save any changes made and after resetting a category to default. Some changes may require restarting the add-on.'
 
 
-# Development
+# Development environment
 Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).
 
 Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).
