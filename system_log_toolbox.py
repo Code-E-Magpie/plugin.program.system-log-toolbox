@@ -20,6 +20,8 @@
 import xbmc, xbmcaddon, xbmcgui, xbmcplugin, xbmcvfs
 import os, re
 
+from collections import deque
+
 # ============================================================
 # Variables
 # ============================================================
@@ -167,7 +169,7 @@ NOTES_TEXT = '[CR][CR][CR]%s[CR][CR]The number of lines in New System Log and Ne
 
 ENVIRONMENT_TEXT = '[CR][CR][CR]%s[CR][CR]Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).[CR]Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).[CR]Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (user testing).[CR]100%% tested and working on Android.[CR]Not tested on other platforms.[CR]Code debugged and reengineered using https://aipy.dev/tools where required.' % ' '.join('DEVELOPMENT ENVIRONMENT')
 
-CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
+CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
 
 User_Information_Text = '[COLOR %s][B]%s[/B][CR][COLOR %s][LIGHT](Instructions / Notes / Development Environment / Changelog)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, ' '.join('USER INFORMATION'), TEXT_VALUE, TEXT_GENERAL, (INSTRUCTIONS_TEXT + NOTES_TEXT + ENVIRONMENT_TEXT + CHANGELOG_TEXT))
 
@@ -266,17 +268,15 @@ def System_Log(log_file):
 		Notification(Addon_Title, '[COLOR %s]System Log: 0 lines in log[/COLOR]' % TEXT_GENERAL)
 		return False
 
-	if Count_Log_Lines(log_file) > VIEW_LOG_LIMIT:
-		Notification(Addon_Title, '[COLOR %s]System Log: unable to view more than %s lines[/COLOR]' % (TEXT_GENERAL, VIEW_LOG_LIMIT))
-		return False
-
 	system_log = []
 
 	try:
 		with open(log_file, 'r', encoding = 'utf-8', errors = 'ignore') as file:
-			content = file.read().replace('\n', '[NL]')
+			last_lines = deque(file, maxlen = VIEW_LOG_LIMIT)
+			content = ''.join(last_lines)
+			content = content.replace('\n', '[NL]')
 			content = ('[COLOR %s]%s[/COLOR]' % (TEXT_GENERAL, content))
-			matches = re.compile("-->Python callback/script returned the following error<--(.+?)-->End of Python script error report<--").findall(content)
+			matches = re.compile("-->Python callback/script returned the following error<--(.+?)-->End of Python script error report<--", re.S).findall(content)
 			for item in matches:
 				string = '-->Python callback/script returned the following error<--%s-->End of Python script error report<--' % item
 				content = content.replace(string, '[COLOR %s]%s[/COLOR]' % (TEXT_VALUE, string))
@@ -290,7 +290,7 @@ def System_Log(log_file):
 		Log(Log_Title + System + 'System Log: file error[CR]%s' % e, xbmc.LOGINFO)
 
 	for log_file, content in system_log:
-		TextBox('[B]%s[/B][COLOR %s][CR]System Log: [COLOR %s]%s[LIGHT] lines[/COLOR] (oldest at the top)[/LIGHT][/COLOR]' % (Addon_Title, TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(log_file)), content)
+		TextBox('[B]%s[/B][COLOR %s][CR]View Log Limit: [COLOR %s]%s[LIGHT] lines[/COLOR] (oldest at the top)[/LIGHT][/COLOR]' % (Addon_Title, TEXT_ITEM, TEXT_VALUE, VIEW_LOG_LIMIT), content)
 
 # ============================================================
 # FUNCTION: System_Log_Errors
