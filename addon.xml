@@ -1,14 +1,14 @@
 <?xml version = "1.0" encoding = "UTF-8" standalone = "yes"?>
-<addon id = "plugin.program.system-log-toolbox" name = "System Log Toolbox" version = "2.7.0" provider-name = "[B][COLOR silver]C[COLOR dimgray]o[/COLOR]d[COLOR dimgray]e[/COLOR]-[COLOR dimgray]E[/COLOR]-[COLOR dimgray]M[/COLOR]a[COLOR dimgray]g[/COLOR]p[COLOR dimgray]i[/COLOR]e[/COLOR][/B]">
+<addon id = "plugin.program.reorder-favourites" name = "Reorder Favourites" version = "3.4.0" provider-name = "[B][COLOR silver]C[COLOR dimgray]o[/COLOR]d[COLOR dimgray]e[/COLOR]-[COLOR dimgray]E[/COLOR]-[COLOR dimgray]M[/COLOR]a[COLOR dimgray]g[/COLOR]p[COLOR dimgray]i[/COLOR]e[/COLOR][/B]">
 	<requires>
 		<import addon = "xbmc.python" version = "3.0.0"/>
 	</requires>
-	<extension point = "xbmc.python.pluginsource" library = "system_log_toolbox.py">
+	<extension point = "xbmc.python.pluginsource" library = "reorder_favourites.py">
 		<provides>executable</provides>
 	</extension>
 	<extension point = "xbmc.addon.metadata">
-	<summary lang = "en">Easy to use log toolbox</summary>
-	<description lang = "en">[COLOR yellow][B]System Log Toolbox[/B]
+	<summary lang = "en">Easy to use reordering of favourites</summary>
+	<description lang = "en">[COLOR yellow][B]Reorder Favourites[/B]
 [/COLOR]
 Please read the Instructions before use.
 [COLOR silver]
