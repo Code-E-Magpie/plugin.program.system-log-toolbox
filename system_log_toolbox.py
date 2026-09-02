@@ -37,19 +37,19 @@ HOME = xbmcvfs.translatePath('special://home/')
 LOGPATH = xbmcvfs.translatePath('special://logpath/')
 LOG_NEW = os.path.join(LOGPATH, 'kodi.log')
 LOG_OLD = os.path.join(LOGPATH, 'kodi.old.log')
-NOTIFICATION_DURATION = ADDON.getSetting('NOTIFICATION_DURATION')
+NOTIFICATION_DURATION = ADDON.getSetting('notification_duration')
 PLUGIN_ID = int(sys.argv[1])
 PLUGIN_URL = sys.argv[0]
 TEMP = xbmcvfs.translatePath('special://temp/')
-TEXT_ADDON = ADDON.getSetting('TEXT_ADDON')
-TEXT_DARK = ADDON.getSetting('TEXT_DARK')
-TEXT_DIM = ADDON.getSetting('TEXT_DIM')
-TEXT_GENERAL = ADDON.getSetting('TEXT_GENERAL')
-TEXT_HIGHLIGHT = ADDON.getSetting('TEXT_HIGHLIGHT')
-TEXT_ITEM = ADDON.getSetting('TEXT_ITEM')
-TEXT_VALUE = ADDON.getSetting('TEXT_VALUE')
+TEXT_ADDON = ADDON.getSetting('text_addon')
+TEXT_DARK = ADDON.getSetting('text_dark')
+TEXT_DIM = ADDON.getSetting('text_dim')
+TEXT_GENERAL = ADDON.getSetting('text_general')
+TEXT_HIGHLIGHT = ADDON.getSetting('text_highlight')
+TEXT_ITEM = ADDON.getSetting('text_item')
+TEXT_VALUE = ADDON.getSetting('text_value')
 TOOLBOX = os.path.join(ADDON.getAddonInfo('path'), 'resources', 'media', 'toolbox.png')
-VIEW_LOG_LIMIT = int(ADDON.getSetting('VIEW_LOG_LIMIT'))
+VIEW_LOG_LIMIT = int(ADDON.getSetting('view_log_limit'))
 
 # ============================================================
 # Addon_ID_Version / Addon_Title / Dialogue / Log_Title
@@ -167,9 +167,9 @@ INSTRUCTIONS_TEXT = '%s[CR][CR]Open the add-on to access the menu.[CR]Select one
 
 NOTES_TEXT = '[CR][CR][CR]%s[CR][CR]The number of lines in New System Log and New System Log Errors will increase as processes are run and by background activies.[CR]The number of lines shown on the menu will not change unless the menu is reloaded (even after viewing a log).[CR]The number of lines shown at the top of the log may therefore be higher than the menu.[CR][CR]Press the OK button in settings to save any changes made and after resetting a category to default.[CR]Some changes may require restarting the add-on.' % ' '.join('NOTES')
 
-ENVIRONMENT_TEXT = '[CR][CR][CR]%s[CR][CR]Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).[CR]Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).[CR]Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (user testing).[CR]100%% tested and working on Android.[CR]Not tested on other platforms.[CR]Code debugged and reengineered using https://aipy.dev/tools where required.' % ' '.join('DEVELOPMENT ENVIRONMENT')
+ENVIRONMENT_TEXT = '%s[CR][CR]Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).[CR]Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).[CR]Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (user testing).[CR]100%% tested and working on Android.[CR]Not tested on other platforms.[CR]Code debugged and reengineered using https://aipy.dev/tools where required (pre 2.7.0).[CR]Code debugged and reengineered using https://stackoverflow.com/ai-assist (2.7.0 onwards).' % ' '.join('DEVELOPMENT ENVIRONMENT')
 
-CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
+CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.1 (7 menu items)[CR]- settings reworked to avoid clashes (different names to variables etc.)[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
 
 User_Information_Text = '[COLOR %s][B]%s[/B][CR][COLOR %s][LIGHT](Instructions / Notes / Development Environment / Changelog)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, ' '.join('USER INFORMATION'), TEXT_VALUE, TEXT_GENERAL, (INSTRUCTIONS_TEXT + NOTES_TEXT + ENVIRONMENT_TEXT + CHANGELOG_TEXT))
 
@@ -382,7 +382,7 @@ else:
 	Old_System_Log = xbmcgui.ListItem('[COLOR %s]Old System Log: [/COLOR][COLOR %s]%s[LIGHT] lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_OLD)))
 	Old_System_Log.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Count_Log_Files = xbmcgui.ListItem('[COLOR %s]Count Log Files: [/COLOR][COLOR %s]%s[LIGHT] in folder[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_HIGHLIGHT if Count_Log_Files(TEMP) > int(ADDON.getSetting('LOGS_HIGHLIGHT')) else TEXT_VALUE, Count_Log_Files(TEMP)))
+	Count_Log_Files = xbmcgui.ListItem('[COLOR %s]Count Log Files: [/COLOR][COLOR %s]%s[LIGHT] in folder[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_HIGHLIGHT if Count_Log_Files(TEMP) > int(ADDON.getSetting('logs_highlight')) else TEXT_VALUE, Count_Log_Files(TEMP)))
 	Count_Log_Files.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
 	View_Log_Limit = xbmcgui.ListItem('[COLOR %s]View Log Limit: [/COLOR][COLOR %s]%s[LIGHT] lines[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_VALUE, VIEW_LOG_LIMIT))
