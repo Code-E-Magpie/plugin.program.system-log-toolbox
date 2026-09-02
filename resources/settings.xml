@@ -4,9 +4,9 @@
 	<!-- Main Settings -->
 	<category label="[LIGHT]Main Settings[/LIGHT]">
 		<setting id= "MA1" type="lsep" label="[COLOR blue]Notification Duration / Logs Highlight / View Log Limit[/COLOR]"/>
-		<setting id="notification_duration" type="number" label="[COLOR silver]Notification duration[LIGHT] (default = 3000ms i.e. 3 seconds)[/LIGHT][/COLOR]" enable="true" default="3000"/>
-		<setting id="logs_highlight" type="number" label="[COLOR silver]Logs highlight if count exceeds number set[LIGHT] (default = 2)[/LIGHT][/COLOR]" enable="true" default="2"/>
-		<setting id="view_log_limit" type="number" label="[COLOR silver]View log limit prevents Kodi crashing[LIGHT] (default = 999)[/LIGHT][/COLOR]" enable="true" default="999"/>
+		<setting id="notification_duration" type="number" label="[COLOR silver]Notification Duration[LIGHT] (default = 3000ms i.e. 3 seconds)[/LIGHT][/COLOR]" enable="true" default="3000"/>
+		<setting id="logs_highlight" type="number" label="[COLOR silver]Logs Highlight if count exceeds number set[LIGHT] (default = 2)[/LIGHT][/COLOR]" enable="true" default="2"/>
+		<setting id="view_log_limit" type="number" label="[COLOR silver]View Log Limit prevents Kodi crashing[LIGHT] (default = 999)[/LIGHT][/COLOR]" enable="true" default="999"/>
 	</category>
 
 	<!-- Text Colours -->
