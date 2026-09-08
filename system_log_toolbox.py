@@ -71,8 +71,8 @@ System_Errors = ('[COLOR %s]log errors > [/COLOR]' % TEXT_GENERAL)
 # FUNCTION: Log
 # ============================================================
 
-def Log(msg, level = xbmc.LOGDEBUG):
-	xbmc.log(msg, level = level)
+def Log(message, level = xbmc.LOGDEBUG):
+	xbmc.log(message, level = level)
 
 # ============================================================
 # FUNCTION: Notification
@@ -99,7 +99,7 @@ ACTION_NAV_BACK = 92 # Backspace action
 ACTION_PREVIOUS_MENU = 10 # ESC action
 ACTION_SELECT_ITEM = 7 # Number Pad Enter
 
-def TextBox(title, msg):
+def TextBox(title, text):
 	class TextBoxes(xbmcgui.WindowXMLDialog):
 
 		def onAction(self, action):
@@ -107,24 +107,24 @@ def TextBox(title, msg):
 			elif action == ACTION_NAV_BACK: self.close()
 
 		def onClick(self, controlId):
-			if (controlId == self.okbutton):
+			if (controlId == self.close_button):
 				self.close()
-			elif controlId != self.okbutton:
+			elif controlId != self.close_button:
 				self.noop = lambda: None
 
 		def onInit(self): # group = 8000, background = 8100, noop = 8181
-			self.title = 8200 # header
-			self.msg = 8300 # textbox
-			self.scrollbar = 8400 # scrollbar
-			self.okbutton = 8500 # close button
+			self.title = 8200
+			self.text = 8300
+			self.scrollbar = 8400
+			self.close_button = 8500
 			self.noop = lambda: None
 			self.showDialog()
 
 		def showDialog(self):
 			close = '[COLOR %s]Close[/COLOR]' % TEXT_GENERAL
 			self.getControl(self.title).setLabel(title)
-			self.getControl(self.okbutton).setLabel(close)
-			self.getControl(self.msg).setText(msg)
+			self.getControl(self.close_button).setLabel(close)
+			self.getControl(self.text).setText(text)
 			self.setFocusId(self.scrollbar)
 
 	textbox = TextBoxes("Textbox.xml", ADDON.getAddonInfo('path'), 'default')
@@ -171,7 +171,7 @@ SETTINGS_TEXT = '[CR][CR][CR]%s[CR][CR]Press the OK button in settings to save a
 
 ENVIRONMENT_TEXT = '[CR][CR][CR]%s[CR][CR]Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).[CR]Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).[CR]Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (user testing).[CR]100%% tested and working on Android.[CR]Not tested on other platforms.[CR]Code debugged and reengineered using https://aipy.dev/tools where required (pre 2.7.0).[CR]Code debugged and reengineered using https://stackoverflow.com/ai-assist (2.7.0 onwards).' % ' '.join('DEVELOPMENT ENVIRONMENT')
 
-CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.1 (7 menu items)[CR]- settings reworked to avoid clashes (different names to variables etc.)[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
+CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.1 (7 menu items)[CR]- settings reworked to avoid clashes (different names to variables etc.)[CR]- minor changes to TextBox.xml to improve performance and consistency with other add-ons[CR]- minor changes to Log and TextBox functions to improve consistency with other add-ons[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
 
 User_Information_Text = '[COLOR %s][B]%s[/B][CR][COLOR %s][LIGHT](Instructions / Notes / Settings / Development Environment / Changelog)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, ' '.join('USER INFORMATION'), TEXT_VALUE, TEXT_GENERAL, (INSTRUCTIONS_TEXT + NOTES_TEXT + SETTINGS_TEXT + ENVIRONMENT_TEXT + CHANGELOG_TEXT))
 
