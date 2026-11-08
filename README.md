@@ -28,7 +28,7 @@ Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (u
 
 100% tested and working on Android.<br/>Not tested on other platforms.
 
-Code debugged and reengineered where required using https://aipy.dev/tools
+Code debugged and reengineered where required using https://stackoverflow.com/ai-assist
 
 
 # Future development
