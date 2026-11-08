@@ -1,11 +1,5 @@
 # ============================================================
-#################################
 # system_log_toolbox.py by Code-E-Magpie
-#################################
-# ============================================================
-
-# ============================================================
-# File information
 # ============================================================
 
 # sourced from: plugin.program.database-toolbox > database_toolbox.py
@@ -26,21 +20,20 @@ from collections import deque
 # Variables
 # ============================================================
 
-ADDON_ID = xbmcaddon.Addon().getAddonInfo('id') # id in addons.xml
+ADDON_ID = xbmcaddon.Addon().getAddonInfo('id')
 ADDON = xbmcaddon.Addon(ADDON_ID)
-ADDON_DEVELOPER = ADDON.getAddonInfo('author') # provider-name in addons.xml (developer)
+ADDON_AUTHOR = ADDON.getAddonInfo('author')
 ADDON_FANART = ADDON.getAddonInfo('fanart')
 ADDON_ICON = ADDON.getAddonInfo('icon')
-ADDON_NAME = ADDON.getAddonInfo('name') # name in addons.xml
-ADDON_VERSION = ADDON.getAddonInfo('version') # version in addons.xml
+ADDON_NAME = ADDON.getAddonInfo('name')
+ADDON_VERSION = ADDON.getAddonInfo('version')
 HOME = xbmcvfs.translatePath('special://home/')
 LOGPATH = xbmcvfs.translatePath('special://logpath/')
 LOG_NEW = os.path.join(LOGPATH, 'kodi.log')
 LOG_OLD = os.path.join(LOGPATH, 'kodi.old.log')
-NOTIFICATION_DURATION = ADDON.getSetting('notification_duration')
+NOTIFICATION_DURATION = ADDON.getSettings().getInt('notification_duration')
 PLUGIN_ID = int(sys.argv[1])
 PLUGIN_URL = sys.argv[0]
-TEMP = xbmcvfs.translatePath('special://temp/')
 TEXT_ADDON = ADDON.getSetting('text_addon')
 TEXT_DARK = ADDON.getSetting('text_dark')
 TEXT_DIM = ADDON.getSetting('text_dim')
@@ -49,14 +42,14 @@ TEXT_HIGHLIGHT = ADDON.getSetting('text_highlight')
 TEXT_ITEM = ADDON.getSetting('text_item')
 TEXT_VALUE = ADDON.getSetting('text_value')
 TOOLBOX = os.path.join(ADDON.getAddonInfo('path'), 'resources', 'media', 'toolbox.png')
-VIEW_LOG_LIMIT = int(ADDON.getSetting('view_log_limit'))
+VIEW_LOG_LIMIT = ADDON.getSettings().getInt('view_log_limit')
 
 # ============================================================
 # Addon_ID_Version / Addon_Title / Dialogue / Log_Title
 # ============================================================
 
 Addon_ID_Version = ('[COLOR %s]%s [/COLOR][COLOR %s] %s[/COLOR]' % (TEXT_ITEM, ADDON_ID, TEXT_VALUE, ADDON_VERSION))
-Addon_Title = ('[COLOR %s]%s[/COLOR]' % (TEXT_ADDON, ' '.join((ADDON_NAME).strip(' '))))
+Addon_Title = ('[COLOR %s]%s[/COLOR]' % (TEXT_ADDON, ' '.join(ADDON_NAME)))
 Dialogue = xbmcgui.Dialog()
 Log_Title = ('[COLOR %s]%s [/COLOR]' % (TEXT_ADDON, ADDON_NAME))
 
@@ -79,7 +72,7 @@ def Log(message, level = xbmc.LOGDEBUG):
 # ============================================================
 
 def Notification(title, message, times = NOTIFICATION_DURATION, icon = ADDON_ICON, sound = False):
-	Dialogue.notification(title, message, icon, int(times), sound)
+	Dialogue.notification(title, message, icon, times, sound)
 
 # ============================================================
 # FUNCTION: TextBox
@@ -134,22 +127,16 @@ def TextBox(title, text):
 #####################################################################################
 
 # ============================================================
-# ------------------------------------------------------------
-# Information
-# ------------------------------------------------------------
-# ============================================================
-
-# ============================================================
 # FUNCTION: Development_Information
 # ============================================================
 
-MAGPIE_TEXT = '%s[CR][CR]The official repository of %s add-ons.[CR]Distribution of the Magpie Repository is permitted.[CR][CR][COLOR silver]IMPORTANT:[CR]Distribution of %s add-ons are NOT permitted.[CR]%s add-ons are exclusively distributed via the Magpie Repository and / or %s on GitHub.[CR]The code and files of these add-ons are free for use, subject to crediting %s.[CR][CR][COLOR %s]Available on GitHub only.[CR]https://github.com/Code-E-Magpie/repository.magpie[CR][CR]To install Magpie Repository:[CR]Add the Kodi source https://Code-E-Magpie.github.io/repository.magpie/[CR]Use the \'Install from zip file\' method to install the Magpie Repository.[/COLOR]' % (' '.join('MAGPIE REPOSITORY'), ADDON_DEVELOPER, ADDON_DEVELOPER, ADDON_DEVELOPER, ADDON_DEVELOPER, ADDON_DEVELOPER, TEXT_DARK)
-
-DATABASE_TEXT = '[CR][CR][CR]%s[CR][CR]Database Toolbox with easy to use database maintenance tools.[CR][CR][COLOR %s]Add-on available from Magpie Repository. Further details on GitHub and within the add-on itself.[CR]https://github.com/Code-E-Magpie/plugin.program.database-toolbox[/COLOR]' % (' '.join('DATABASE TOOLBOX'), TEXT_DARK)
+MAGPIE_TEXT = '%s[CR][CR]The official repository of %s add-ons.[CR]Distribution of the Magpie Repository is permitted.[CR][CR]IMPORTANT:[CR]Distribution of %s add-ons are NOT permitted.[CR]%s add-ons are exclusively distributed via the Magpie Repository and / or %s on GitHub.[CR]The code and files of these add-ons are free for use, subject to crediting %s.[CR][CR][COLOR %s]Available on GitHub only.[CR]https://github.com/Code-E-Magpie/repository.magpie[CR][CR]To install Magpie Repository:[CR]Add the Kodi source https://Code-E-Magpie.github.io/repository.magpie/[CR]Use the \'Install from zip file\' method to install the Magpie Repository.[/COLOR]' % (' '.join('MAGPIE REPOSITORY'), ADDON_AUTHOR, ADDON_AUTHOR, ADDON_AUTHOR, ADDON_AUTHOR, ADDON_AUTHOR, TEXT_DARK)
 
 MAINTENANCE_TEXT = '[CR][CR][CR]%s[CR][CR]Maintenance Toolbox with easy to read Kodi information (system, add-ons, network and internet).[CR]Clear cache + folders, surplus add-ons, temp folder and thumbnails.[CR]View logs and errors (new and old).[CR]Check repositories, sources and internet speed (Speedtest by Ookla).[CR]Backup and restore favourites, sources, logs, userdata, add-ons, add-on data etc.[CR][CR][COLOR %s]Add-on available from Magpie Repository. Further details on GitHub and within the add-on itself.[CR]https://github.com/Code-E-Magpie/plugin.program.maintenance-toolbox[/COLOR]' % (' '.join('MAINTENANCE TOOLBOX'), TEXT_DARK)
 
-REORDER_TEXT = '[CR][CR][CR]%s[CR][CR]Easy to use reordering of favourites for Kodi.[CR][CR][COLOR %s]Add-on available from Magpie Repository. Further details on GitHub and within the add-on itself.[CR]https://github.com/Code-E-Magpie/plugin.program.reorder-favourites[/COLOR]' % (' '.join('REORDER FAVOURITES'), TEXT_DARK)
+REORDER_TEXT = '[CR][CR][CR]%s[CR][CR]Easy to use reordering of favourites for Kodi using dialogue boxes to exit and save.[CR][CR][COLOR %s]Add-on available from Magpie Repository. Further details on GitHub and within the add-on itself.[CR]https://github.com/Code-E-Magpie/plugin.program.reorder-favourites[/COLOR]' % (' '.join('REORDER FAVOURITES'), TEXT_DARK)
+
+REORDER_SE_TEXT = '[CR][CR][CR]%s[CR][CR]Easy to use reordering of favourites for Kodi using the menu to exit and save. Legacy version of Reorder Favourites.[CR][CR][COLOR %s]Add-on available from Magpie Repository. Further details on GitHub and within the add-on itself.[CR]https://github.com/Code-E-Magpie/plugin.program.reorder-favourites[/COLOR]' % (' '.join('REORDER FAVOURITES SE'), TEXT_DARK)
 
 LOG_TEXT = '[CR][CR][CR]%s[CR][CR]System Log Toolbox easy to use system log viewer.[CR][CR][COLOR %s]Add-on available from Magpie Repository. Further details on GitHub and within the add-on itself.[CR]https://github.com/Code-E-Magpie/plugin.program.system-log-toolbox[/COLOR]' % (' '.join('SYSTEM LOG TOOLBOX'), TEXT_DARK)
 
@@ -157,7 +144,7 @@ SPECIAL_TEXT = '[CR][CR][CR]%s[CR][CR]Special Favourites: Kodi special paths and
 
 TEMPLATE_TEXT = '[CR][CR][CR]%s[CR][CR]Created to illustrate a GitHub repository with a simple folder structure linked to a Kodi repository.[CR][CR][COLOR %s]Available on GitHub only.[CR]https://github.com/Code-E-Magpie/repository.template[/COLOR][CR][CR]Alternatively a GitHub repository linked to a Kodi source, without using a Kodi repository.[CR][CR][COLOR %s]Available on GitHub only.[CR]https://github.com/Code-E-Magpie/repository.simple[/COLOR]' % (' '.join('TEMPLATE REPOSITORY'), TEXT_DARK, TEXT_DARK)
 
-Development_Text = '[CR][CR][CR][COLOR %s][B]%s[/B][CR][COLOR %s][LIGHT](Magpie Repository / Database Toolbox / Maintenance Toolbox / Reorder Favourites / System Log Toolbox / Favourites & Sources / Template Repository)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, ' '.join('Code-E-Magpie Development'), TEXT_VALUE, TEXT_GENERAL, (MAGPIE_TEXT + DATABASE_TEXT + MAINTENANCE_TEXT + REORDER_TEXT + LOG_TEXT + SPECIAL_TEXT + TEMPLATE_TEXT))
+Development_Text = '[CR][CR][CR][COLOR %s][B]%s[/B][CR][COLOR %s][LIGHT](Magpie Repository / Maintenance Toolbox / Reorder Favourites / Reorder Favourites SE / System Log Toolbox / Favourites & Sources / Template Repository)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, ' '.join('Code-E-Magpie Development'), TEXT_VALUE, TEXT_GENERAL, (MAGPIE_TEXT + MAINTENANCE_TEXT + REORDER_TEXT + REORDER_SE_TEXT + LOG_TEXT + SPECIAL_TEXT + TEMPLATE_TEXT))
 
 # ============================================================
 # FUNCTION: User_Information
@@ -167,11 +154,11 @@ INSTRUCTIONS_TEXT = '%s[CR][CR]Open the add-on to access the menu.[CR]Select one
 
 NOTES_TEXT = '[CR][CR][CR]%s[CR][CR]The number of lines in New System Log and New System Log Errors will increase as processes are run and by background activies.[CR]The number of lines shown on the menu will not change unless the menu is reloaded (even after viewing a log).' % ' '.join('NOTES')
 
-SETTINGS_TEXT = '[CR][CR][CR]%s[CR][CR]Press the OK button in settings to save any changes made and after resetting a category to default.[CR]Some changes may require restarting the add-on.[CR][CR]Notification Duration[CR]Logs Highlight if count exceeds number set (used to identify the exsistance of an extra log e.g. a crash log)[CR]View Log Limit to prevent crashing (dependent on device / platform - file size: 1000 lines ~ 170kb)[CR]Customise text colours with billions of text colour combinations[CR][CR]Choose from 140 colours for each one (there is also a none option):[CR]Text Add-on Colour: header (menu, notifications, logs and text boxes)[CR]Text Dark Colour: logs and text boxes[CR]Text Dim Colour: menu[CR]Text General Colour: main text (notifications, logs, text boxes and close button)[CR]Text Highlight Colour: values on menu requiring attention and logs[CR]Text Item Colour: items on menu and text boxes[CR]Text Value Colour: values on menu and text boxes' % ' '.join('SETTINGS')
+SETTINGS_TEXT = '[CR][CR][CR]%s[CR][CR]Press the OK button in settings to save any changes made and after resetting a category to default.[CR]Some changes may require restarting the add-on.[CR][CR]Notification Duration[CR]Logs Highlight if count exceeds number set (used to identify the exsistance of an extra log e.g. a crash log)[CR]View Log Limit to prevent crashing (dependent on device / platform - file size: 1000 lines ≈ 170kb)[CR]Customise text colours with billions of text colour combinations[CR][CR]Choose from 140 colours for each one (there is also a none option):[CR]Text Add-on Colour: header (menu, notifications, logs and text boxes)[CR]Text Dark Colour: logs and text boxes[CR]Text Dim Colour: menu[CR]Text General Colour: main text (notifications, logs, text boxes and close button)[CR]Text Highlight Colour: values on menu requiring attention and logs[CR]Text Item Colour: items on menu and text boxes[CR]Text Value Colour: values on menu and text boxes' % ' '.join('SETTINGS')
 
 ENVIRONMENT_TEXT = '[CR][CR][CR]%s[CR][CR]Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).[CR]Tablet (1340 x 800 aspect ratio 5:3) running Android 14 using QuickEdit apk (TryItAndSee / LearnAsYouGo iterative development and testing).[CR]Chromecast HD (1280 x 720 aspect ratio 16:9) running Android TV OS version 14 (user testing).[CR]100%% tested and working on Android.[CR]Not tested on other platforms.[CR]Code debugged and reengineered using https://aipy.dev/tools where required (pre 2.7.0).[CR]Code debugged and reengineered using https://stackoverflow.com/ai-assist (2.7.0 onwards).' % ' '.join('DEVELOPMENT ENVIRONMENT')
 
-CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.2 (7 menu items)[CR]- headers, logs and notifications reworked to specify new or old[CR][CR]version 2.7.1 (7 menu items)[CR]- settings reworked to avoid clashes (different names to variables etc.)[CR]- minor changes to TextBox.xml to improve performance and consistency with other add-ons[CR]- minor changes to Log and TextBox functions to improve consistency with other add-ons[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Database Toolbox 1.10.0 by %s (plugin.program.database-toolbox)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_DEVELOPER, ADDON_DEVELOPER)
+CHANGELOG_TEXT = '[CR][CR][CR]%s [LIGHT] (newest at the top)[/LIGHT][CR][CR]Version code x.y.z attributes[CR]x = major change / y = number of \'>\' menu items / z = minor change[CR][CR]version 2.7.3 (7 menu items)[CR]- Code-E-Magpie development content amended[CR]- minor changes to improve consistency with other add-ons including the handling of integers[CR][CR]version 2.7.2 (7 menu items)[CR]- headers, logs and notifications reworked to specify new or old[CR][CR]version 2.7.1 (7 menu items)[CR]- settings reworked to avoid clashes (different names to variables etc.)[CR]- minor changes to TextBox.xml to improve performance and consistency with other add-ons[CR]- minor changes to Log and TextBox functions to improve consistency with other add-ons[CR][CR]version 2.7.0 (7 menu items)[CR]- change to enable recent lines to be viewed in large logs (number of lines determined by the view log limit setting)[CR][CR]version 1.7.1 (7 menu items)[CR]- close button added to text colour customisation[CR]- empty log file notification reworked[CR][CR]version 1.7.0 (7 menu items)[CR]- initial code from Abacus Program 1.0.0 by %s (plugin.program.code-e-magpie)[CR]- code added from Maintenance Toolbox 1.4.0 by %s (plugin.program.maintenance-toolbox)[CR]- icon.png changed[CR]- variables and functions reworked[CR]- menu and logs reworked[CR]- user information reworked (instructions, notes, development and changelog)' % (' '.join('CHANGELOG'), ADDON_AUTHOR, ADDON_AUTHOR)
 
 User_Information_Text = '[COLOR %s][B]%s[/B][CR][COLOR %s][LIGHT](Instructions / Notes / Settings / Development Environment / Changelog)[/LIGHT][/COLOR][/COLOR][CR][CR][COLOR %s]%s[/COLOR]' % (TEXT_ITEM, ' '.join('USER INFORMATION'), TEXT_VALUE, TEXT_GENERAL, (INSTRUCTIONS_TEXT + NOTES_TEXT + SETTINGS_TEXT + ENVIRONMENT_TEXT + CHANGELOG_TEXT))
 
@@ -367,7 +354,6 @@ elif '/User_Information' in PLUGIN_URL:
 	User_Information()
 
 else:
-	# Create the menu items.
 	xbmcplugin.setContent(PLUGIN_ID, 'files')
 
 	Equals = xbmcgui.ListItem('[COLOR %s]==================================================[/COLOR]' % TEXT_DIM)
@@ -376,22 +362,22 @@ else:
 	Addon_Header = xbmcgui.ListItem('[B]%s[/B]%s' % (Addon_Title, ' '.join('  Settings >')))
 	Addon_Header.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	New_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]New System Log Errors: [/COLOR][COLOR %s]%s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_NEW) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_NEW)))
+	New_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]New System Log Errors: [/COLOR][COLOR %s] %s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_NEW) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_NEW)))
 	New_System_Log_Errors.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	New_System_Log = xbmcgui.ListItem('[COLOR %s]New System Log: [/COLOR][COLOR %s]%s[LIGHT] lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_NEW)))
+	New_System_Log = xbmcgui.ListItem('[COLOR %s]New System Log: [/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_NEW)))
 	New_System_Log.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Old_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]Old System Log Errors: [/COLOR][COLOR %s]%s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_OLD) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_OLD)))
+	Old_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]Old System Log Errors: [/COLOR][COLOR %s] %s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_OLD) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_OLD)))
 	Old_System_Log_Errors.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Old_System_Log = xbmcgui.ListItem('[COLOR %s]Old System Log: [/COLOR][COLOR %s]%s[LIGHT] lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_OLD)))
+	Old_System_Log = xbmcgui.ListItem('[COLOR %s]Old System Log: [/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_OLD)))
 	Old_System_Log.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Count_Log_Files = xbmcgui.ListItem('[COLOR %s]Count Log Files: [/COLOR][COLOR %s]%s[LIGHT] in folder[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_HIGHLIGHT if Count_Log_Files(TEMP) > int(ADDON.getSetting('logs_highlight')) else TEXT_VALUE, Count_Log_Files(TEMP)))
+	Count_Log_Files = xbmcgui.ListItem('[COLOR %s]Count Log Files: [/COLOR][COLOR %s] %s [LIGHT]in folder[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_HIGHLIGHT if Count_Log_Files(LOGPATH) > ADDON.getSettings().getInt('logs_highlight') else TEXT_VALUE, Count_Log_Files(LOGPATH)))
 	Count_Log_Files.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	View_Log_Limit = xbmcgui.ListItem('[COLOR %s]View Log Limit: [/COLOR][COLOR %s]%s[LIGHT] lines[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_VALUE, VIEW_LOG_LIMIT))
+	View_Log_Limit = xbmcgui.ListItem('[COLOR %s]View Log Limit: [/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_VALUE, VIEW_LOG_LIMIT))
 	View_Log_Limit.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
 	Exit_Only = xbmcgui.ListItem('Exit Only  >')
@@ -400,7 +386,7 @@ else:
 	User_Information = xbmcgui.ListItem(' '.join('User Information >'))
 	User_Information.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Addon_Developer = xbmcgui.ListItem('[COLOR %s]Developer: [/COLOR]%s' % (TEXT_DIM, ADDON_DEVELOPER))
+	Addon_Developer = xbmcgui.ListItem('[COLOR %s]Developer: [/COLOR]%s' % (TEXT_DIM, ADDON_AUTHOR))
 	Addon_Developer.setArt({'fanart': ADDON_FANART, 'thumb': ADDON_ICON})
 
 	Addon_Name = xbmcgui.ListItem('[COLOR %s]Name: %s[/COLOR]' % (TEXT_DIM, ADDON_NAME))
@@ -412,7 +398,6 @@ else:
 	Addon_ID = xbmcgui.ListItem('[COLOR %s]Add-on ID: %s[/COLOR]' % (TEXT_DIM, ADDON_ID))
 	Addon_ID.setArt({'fanart': ADDON_FANART, 'thumb': ADDON_ICON})
 
-	# Append to PLUGIN_URL as it already ends with a slash.
 	xbmcplugin.addDirectoryItems(
 		PLUGIN_ID,
 		(
