@@ -362,22 +362,22 @@ else:
 	Addon_Header = xbmcgui.ListItem('[B]%s[/B]%s' % (Addon_Title, ' '.join('  Settings >')))
 	Addon_Header.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	New_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]New System Log Errors: [/COLOR][COLOR %s] %s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_NEW) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_NEW)))
+	New_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]New System Log Errors:[/COLOR][COLOR %s] %s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_NEW) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_NEW)))
 	New_System_Log_Errors.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	New_System_Log = xbmcgui.ListItem('[COLOR %s]New System Log: [/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_NEW)))
+	New_System_Log = xbmcgui.ListItem('[COLOR %s]New System Log:[/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_NEW)))
 	New_System_Log.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Old_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]Old System Log Errors: [/COLOR][COLOR %s] %s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_OLD) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_OLD)))
+	Old_System_Log_Errors = xbmcgui.ListItem('[COLOR %s]Old System Log Errors:[/COLOR][COLOR %s] %s[/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE if Count_Log_Errors(LOG_OLD) == 0 else TEXT_HIGHLIGHT, Count_Log_Errors(LOG_OLD)))
 	Old_System_Log_Errors.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Old_System_Log = xbmcgui.ListItem('[COLOR %s]Old System Log: [/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_OLD)))
+	Old_System_Log = xbmcgui.ListItem('[COLOR %s]Old System Log:[/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]  >' % (TEXT_ITEM, TEXT_VALUE, Count_Log_Lines(LOG_OLD)))
 	Old_System_Log.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	Count_Log_Files = xbmcgui.ListItem('[COLOR %s]Count Log Files: [/COLOR][COLOR %s] %s [LIGHT]in folder[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_HIGHLIGHT if Count_Log_Files(LOGPATH) > ADDON.getSettings().getInt('logs_highlight') else TEXT_VALUE, Count_Log_Files(LOGPATH)))
+	Count_Log_Files = xbmcgui.ListItem('[COLOR %s]Count Log Files:[/COLOR][COLOR %s] %s [LIGHT]in folder[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_HIGHLIGHT if Count_Log_Files(LOGPATH) > ADDON.getSettings().getInt('logs_highlight') else TEXT_VALUE, Count_Log_Files(LOGPATH)))
 	Count_Log_Files.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
-	View_Log_Limit = xbmcgui.ListItem('[COLOR %s]View Log Limit: [/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_VALUE, VIEW_LOG_LIMIT))
+	View_Log_Limit = xbmcgui.ListItem('[COLOR %s]View Log Limit:[/COLOR][COLOR %s] %s [LIGHT]lines[/LIGHT][/COLOR]' % (TEXT_ITEM, TEXT_VALUE, VIEW_LOG_LIMIT))
 	View_Log_Limit.setArt({'fanart': TOOLBOX, 'thumb': ADDON_ICON})
 
 	Exit_Only = xbmcgui.ListItem('Exit Only  >')
