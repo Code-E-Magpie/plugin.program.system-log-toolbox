@@ -49,9 +49,9 @@
         <control type="textbox" id="8300">
             <description>Content Panel</description>
             <left>25</left>
-            <top>90</top>
+            <top>80</top>
             <width>1850</width>
-            <height>970</height>
+            <height>1000</height>
             <align>left</align>
             <aligny>top</aligny>
             <font>font12</font>
@@ -66,9 +66,9 @@
         <control type="scrollbar" id="8400">
             <description>Scrollbar Image</description>
             <left>1875</left>
-            <top>90</top>
+            <top>80</top>
             <width>30</width>
-            <height>970</height>
+            <height>1000</height>
             <orientation>vertical</orientation>
             <showonepage>true</showonepage>
             <texturesliderbackground>scrollbar-V-background.png</texturesliderbackground>
