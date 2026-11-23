@@ -9,16 +9,6 @@ Please read the Instructions before use and see the Changelog to see what is new
 To view the Instructions and the Changelog:<br>open the add-on to access the menu and click on 'User Information >'
 
 
-# Notes
-The number of lines in New System Log and New System Log Errors will increase as processes are run and by background activies.
-
-The number of lines shown on the menu will not change unless the menu is reloaded (even after viewing a log).
-
-The number of lines shown at the top of the log may therefore be higher than the menu.
-
-Press the OK button in settings to save any changes made and after resetting a category to default. Some changes may require restarting the add-on.'
-
-
 # Development environment
 Kodi v21.3 Omega apk (Android app) with Confluence skin as default (including default font).
 
