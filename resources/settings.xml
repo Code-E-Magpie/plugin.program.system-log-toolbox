@@ -3,10 +3,14 @@
 
 	<!-- Main Settings -->
 	<category label="[LIGHT]Main Settings[/LIGHT]">
-		<setting id= "MA1" type="lsep" label="[COLOR blue]Notification Duration / Logs Highlight / View Log Limit[/COLOR]"/>
-		<setting id="notification_duration" type="number" label="[COLOR silver]Notification Duration[LIGHT] (default = 3000ms i.e. 3 seconds)[/LIGHT][/COLOR]" enable="true" default="3000"/>
-		<setting id="logs_highlight" type="number" label="[COLOR silver]Logs Highlight if count exceeds number set[LIGHT] (default = 2)[/LIGHT][/COLOR]" enable="true" default="2"/>
-		<setting id="view_log_limit" type="number" label="[COLOR silver]View Log Limit prevents Kodi crashing[LIGHT] (default = 999)[/LIGHT][/COLOR]" enable="true" default="999"/>
+		<setting id= "MA1" type="lsep" label="[COLOR blue]Custom Lines / Custom Linez / Exclude Blank Lines[/COLOR]"/>
+		<setting id="custom_log_lines" type="text" label="[COLOR silver]Custom Lines filter[LIGHT] case sensitive (default = Maintenance)[/LIGHT][/COLOR]" enable="true" default="Maintenance"/>
+		<setting id="custom_log_linez" type="text" label="[COLOR silver]Custom Linez filter[LIGHT] case sensitive (default = maintenance)[/LIGHT][/COLOR]" enable="true" default="maintenance"/>
+		<setting id="exclude_log_lines" type="bool" label="[COLOR silver]Exclude blank lines when viewing unfiltered system log[LIGHT] (default = on)[/LIGHT][/COLOR]" enable="true" default="true"/>
+		<setting id= "MA2" type="lsep" label="[COLOR blue]Logs Count / Notification Duration / View Log Limit[/COLOR]"/>
+		<setting id="logs_count" type="number" label="[COLOR silver]Logs Count highlight if number set exceeded[LIGHT] (default = 2)[/LIGHT][/COLOR]" enable="true" default="2"/>
+		<setting id="notification_duration" type="number" label="[COLOR silver]Notification duration[LIGHT] (default = 3000ms i.e. 3 seconds)[/LIGHT][/COLOR]" enable="true" default="3000"/>
+		<setting id="view_log_limit" type="number" label="[COLOR silver]View Log Limit prevents crashing[LIGHT] (default = 999)[/LIGHT][/COLOR]" enable="true" default="999"/>
 	</category>
 
 	<!-- Text Colours -->
